@@ -1,0 +1,28 @@
+<% include ./partials/header %>
+
+	<div>
+		<div class="jumbotron">
+		  <h1>Welcome to the Desserts Social Network!</h1>
+		  <p>Share your tasty treats with us!</p>
+
+		  <a href="/desserts/new" class="btn btn-primary">Add a New Dessert</a>
+
+		</div>
+	</div>
+
+
+	<div class="flex-container" style="display: moz-flex; display: ms-flex; display: webkit-flex; display: flex; ms-flex-wrap: wrap; webkit-flex-wrap: wrap; flex-wrap: wrap; display: flex"> 
+	    <% desserts.forEach(function(element) { %>
+	        <div class="thumbnail flex-item" style="max-width: 200px">
+	                <img class="img-thumbnail" alt="pic of this dessert" style="min-width: 100px;" src="<%= element.image %>">
+	            <div class="caption">
+	                <%= element.name %>
+	            </div>
+	            <br/>
+	            <a href="/desserts/show" class="btn btn-primary" style="margin: 0 30%;">More info</a>
+	        </div>
+	    <% }); %>
+	</div>
+
+
+<% include ./partials/footer %>

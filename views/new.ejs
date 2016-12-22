@@ -1,0 +1,24 @@
+<% include ./partials/header %>
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-6 col-md-offset-4">
+			<div>
+				<h1 style="margin-top:2em;">Create a New Dessert</h1>
+
+				<form action="/desserts" method="POST">
+					<input style="width:25em;" type="text" name="newDessertName" placeholder="name"><br/><br/>
+
+					<input style="width:25em;" type="text" name="newDessertImage" placeholder="image url"><br/><br/>
+
+					<button type="submit" class="btn btn-primary" style="width:25em;">Submit!</button>
+				</form><br />
+
+				<a href="/desserts">Back</a>
+				
+			</div>
+		</div>
+	</div>
+</div>
+
+<% include ./partials/footer %>
