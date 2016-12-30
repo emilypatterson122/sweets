@@ -1,2 +1,16 @@
 <% include ./partials/header %>
+	<div>
+    	<h1 style="margin-top:2em;"><%= dessert.name %></h1>
+    </div>
+
+    <div>
+    	<img src="<%= dessert.image %>">
+    </div><br>
+
+    <div>
+    	<h4><%= dessert.description %></h4>
+    </div><br>
+
+    <a href="/desserts">Back</a>
+<% include ./partials/footer %>
 

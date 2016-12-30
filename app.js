@@ -1,115 +1,90 @@
+// Requirements // Requirements // Requirements // Requirements 
 var express = require('express');
 var app = express();
-var ejs = require('ejs');
 app.set('view engine', 'ejs');
 var bodyParser = require('body-parser');
+// Reads post request body:
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+var seedDB = require('./seeds.js'); 
 
 
-// MONGOOSE AND MONGO // MONGOOSE AND MONGO // MONGOOSE AND MONGO // MONGOOSE AND MONGO
-var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/test');
+// MONGOOSE AND MONGO // MONGOOSE AND MONGO // MONGOOSE AND MONGO 
+var mongoose = require('mongoose'); 
+mongoose.connect('mongodb://localhost/project'); //set up DB
 var db = mongoose.connection;
-var dessertSchema = new mongoose.Schema({
-	name: String,
-	image: String,
-	description: String
-});
 
-var dessert = mongoose.model("dessert", dessertSchema);
-var creamCake = new dessert({
-	name: "Cream Cake",
-	image: "http://i.imgtc.com/E95yksb.jpg"
-});
-
-// why is this saving more than once?
-// creamCake.save(function(err){
-// 	if(err) {
-// 		console.log(err);
-// 	} 
-// 	else {
-// 		console.log('boom');
-// 	}
-// });
+// Model- object that gives you access to a named collection
+var Dessert = require('./models/dessert'); 
+// var creamCake = new Dessert({
+// 	name: "Cream Cake",
+// 	image: "http://i.imgtc.com/E95yksb.jpg",
+// 	description: "This is delcious. I am impressed."
+// }); 
 
 
-// DUMMY INFO AND ROUTES // DUMMY INFO AND ROUTES // DUMMY INFO AND ROUTES 
-// var desserts = [
-//   {name: "Cream Cake", image: "http://i.imgtc.com/E95yksb.jpg"},
-//   {name: "Red Velvet Cake", image: "http://i.imgtc.com/neag6Q4.jpg"},
-//   {name: "White Chocolate", image: "http://i.imgtc.com/D9CY418.jpg"}
-// ];
-
+// ROUTES // ROUTES // ROUTES // ROUTES // ROUTES // ROUTES // 
+// Root
 app.get('/', function(req, res){
   res.render('landing');
 });
 
-// uses static array
-// app.get('/desserts', function(req, res){
-//   res.render('desserts',
-//     {desserts: desserts}
-//   )
-// });
-
-// uses Mongo
+// Display all desserts
 app.get('/desserts', function(req, res){
-	dessert.find(function(err, desserts){
-		res.render('index', {desserts: desserts}); //where from now?
+	Dessert.find(function(err, dessertsX){ //like 'db.desserts.find()' in Mongo
+		res.render('index', {desserts: dessertsX}); //first "desserts" matches <% desserts.forEach %> in index.ejs
 	})
-});
+});// the argument is representing "all the data returned from mongo", so the index page receives the data in the form shown in the render statement.
 
+// Form to create new dessert
 app.get('/desserts/new', function(req, res){
 	res.render('new');
 });
 
-app.get('/desserts/show', function(req, res){
-	res.render('show');
-});
-
-// uses Mongo 
-app.post('/desserts', function(req, res){
-	// console.log('making it to post route'); //test
-	// console.log(req.body); //test
-	var newDessert = new dessert();
-	newDessert.name = req.body.newDessertName;
-	newDessert.image = req.body.newDessertImage;
-	// console.log(newDessertName); //test
-	// console.log(newDessertImage); //test
-	newDessert.save(function(err, document){
+// Display SINGLE DESSERT- refer to: https://www.mongodb.com/blog/post/the-mean-stack-mistakes-youre-probably-making
+app.get('/desserts/:id', function(req, res){
+	Dessert.findById({'_id': req.params.id}, function(err, dessertX){ 
 		if(err){
-			console.log("Error on save")
+			console.log(err);
 		} else {
-			console.log(document);
-			mongoose.model('dessert').find(function(err,desserts){
-                res.render('index', {desserts: desserts}); //where from now?
-            })
+			res.render('show',{dessert: dessertX});
 		}
-	});
+	})
 });
 
-// uses Mongo -- this works -- why?
-// app.post('/desserts', function(req,res){
-//     var newDessertFromForm = new dessert();
-//     newDessertFromForm.name = req.body.newDessertName;
-//     newDessertFromForm.image = req.body.newDessertImage;
-    
-//     newDessertFromForm.save(function(err, document){
-//         if(err){
-//             res.send('Error saving dessert');
-//         } else {
-//             console.log(document);
-//             mongoose.model('dessert').find(function(err,desserts){
-//                 res.render('index',{desserts: desserts});
-//             })
-//         }
-//     });
-// });
+// Post created-dessert to display-all-desserts page
+app.post('/desserts', function(req, res){
+	Dessert.create( //.create = .new and .save
+	{ name: req.body.newDessertName, image: req.body.newDessertImage, description: req.body.newDessertDescription }, //data that's saving in DB
+	function(err, dessert){
+		if(err){
+			console.log(err);
+		} else {
+			// console.log(dessert);
+			res.redirect('/desserts'); //redirect is also a GET request!
+		}
+	})
+});
 
 
+// Express port
 var port = process.env.PORT || 3000;
 
 app.listen(port, function () {
-    console.log('Example app listening on port 3000!');
+    console.log('Listening on port 3000!');
 });
+
+module.exports = 'app.js';
+
+
+
+
+
+
+
+
+
+
+
+
 
