@@ -1,4 +1,4 @@
-// Requirements // Requirements // Requirements // Requirements 
+// Requirements 
 var express = require('express');
 var app = express();
 app.set('view engine', 'ejs');
@@ -6,24 +6,21 @@ var bodyParser = require('body-parser');
 // Reads post request body:
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+// Require seedDB function
 var seedDB = require('./seeds.js'); 
+seedDB();
 
 
-// MONGOOSE AND MONGO // MONGOOSE AND MONGO // MONGOOSE AND MONGO 
+// MONGOOSE AND MONGO 
 var mongoose = require('mongoose'); 
 mongoose.connect('mongodb://localhost/project'); //set up DB
 var db = mongoose.connection;
 
 // Model- object that gives you access to a named collection
 var Dessert = require('./models/dessert'); 
-// var creamCake = new Dessert({
-// 	name: "Cream Cake",
-// 	image: "http://i.imgtc.com/E95yksb.jpg",
-// 	description: "This is delcious. I am impressed."
-// }); 
+var Comment = require('./models/comment'); 
 
-
-// ROUTES // ROUTES // ROUTES // ROUTES // ROUTES // ROUTES // 
+// ROUTES 
 // Root
 app.get('/', function(req, res){
   res.render('landing');
@@ -32,7 +29,11 @@ app.get('/', function(req, res){
 // Display all desserts
 app.get('/desserts', function(req, res){
 	Dessert.find(function(err, dessertsX){ //like 'db.desserts.find()' in Mongo
-		res.render('index', {desserts: dessertsX}); //first "desserts" matches <% desserts.forEach %> in index.ejs
+		if(err){
+			console.log(err);
+		} else {
+			res.render('index', {desserts: dessertsX}); //first "desserts" matches <% desserts.forEach %> in index.ejs
+		}
 	})
 });// the argument is representing "all the data returned from mongo", so the index page receives the data in the form shown in the render statement.
 
@@ -41,15 +42,24 @@ app.get('/desserts/new', function(req, res){
 	res.render('new');
 });
 
+// http://stackoverflow.com/questions/39782972/display-all-comments-for-each-post-with-expressjs-and-mongoose
+
+// http://mongoosejs.com/docs/api.html#model_Model.populate
+
+
 // Display SINGLE DESSERT- refer to: https://www.mongodb.com/blog/post/the-mean-stack-mistakes-youre-probably-making
-app.get('/desserts/:id', function(req, res){
-	Dessert.findById({'_id': req.params.id}, function(err, dessertX){ 
-		if(err){
-			console.log(err);
-		} else {
-			res.render('show',{dessert: dessertX});
-		}
-	})
+app.get('/desserts/:id',function(req, res){
+   Dessert.findOne({'_id': req.params.id})
+   	.populate('comments')
+   	.exec(function(err, blah){
+       if(err){
+       		console.log(err);
+         	res.send('No find blah blah blah');
+       } else {
+   			res.render('show.ejs',{dessert: blah});
+       } 
+       console.log(blah);
+   })
 });
 
 // Post created-dessert to display-all-desserts page
@@ -66,7 +76,6 @@ app.post('/desserts', function(req, res){
 	})
 });
 
-
 // Express port
 var port = process.env.PORT || 3000;
 
@@ -75,16 +84,6 @@ app.listen(port, function () {
 });
 
 module.exports = 'app.js';
-
-
-
-
-
-
-
-
-
-
 
 
 
