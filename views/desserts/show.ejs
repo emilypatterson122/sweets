@@ -1,0 +1,55 @@
+<% include ../partials/header %>
+    <div class="container">
+        <div class="row">
+            <div class="listTabs list-group col-sm-3 col-md-3">
+                <h3 id="showListGroupLabel">Desserts</h3>
+                <br> 
+                    <a href="#" class="list-group-item list-group-item-success">Basics</a> 
+                    <a href="#" class="list-group-item">Recipe<span class="glyphicon glyphicon-zoom-in pull-right" aria-hidden="true"></span></a> 
+            </div>
+            <div class="col-sm-9 col-md-9">
+                <div class="singleDessert thumbnail"> <img src="<%= dessert.image %>">
+                    <div class="caption">
+                        <h3 class="text-capitalize text-primary"><%= dessert.name %></h3> </div>
+                    <p id="dessertDescription">
+                        <%= dessert.description %>
+                    </p>
+                    <div style="margin-left:1rem;">
+                        <p><em>Submitted by <%= dessert.submittedBy.username %></em></p>
+                    </div>
+                    <div class="editAndRemoveDessertBtns" style="margin-bottom:1em;"> 
+                        <% if(user && user.id == dessert.submittedBy.id) { %>
+                            <a href="/desserts/<%= dessert._id %>/edit" class="btn btn-warning" style="margin-left:1em;"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+                            <form style="display: inline;">
+                                <button type="submit" formmethod="POST" formaction="/desserts/<%= dessert._id %>?_method=DELETE" class="btn btn-danger pull-right" style="margin-right:2em;"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
+                            </form>
+                        <% } %>
+                    </div>
+                </div>
+                <div class="commentWellOne well well-lg"> 
+                    <a href="/desserts/<%= dessert.id %>/comments/new" class="btn btn-success pull-right" id="commentBtn"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Comment</a>
+                    <br>
+                    <br>
+                    <hr class="hr">
+                    <div class="editAndRemoveCommentBtns" style="margin-bottom:1em;"> 
+                        <% dessert.comments.forEach(function(comment){ %>
+                            <% if(user && user.id == comment.author.id) { %>
+                            <a href="/desserts/<%= dessert._id %>/comments/<%= comment._id %>/edit" class="btn btn-warning"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+                            <form style="display: inline;">
+                                <button type="submit" formmethod="POST" formaction="/desserts/<%= dessert._id %>/comments/<%= comment._id %>?_method=DELETE" class="btn btn-danger pull-right" style="margin-right:2em;"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
+                            </form>
+                            <% } %>
+                            <p>
+                                <strong><%= comment.author.username + ": " %></strong>
+                                <%= comment.comment; %>
+                            </p>
+                            <% }) %>
+                    </div>
+                </div>
+                <br>
+                <br> 
+                <a href="/desserts" style="margin-bottom:10em;"><span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> Back</a> 
+            </div>
+        </div>
+    </div>
+<% include ../partials/footer %>
