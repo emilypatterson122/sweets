@@ -1,0 +1,23 @@
+<% include ./partials/header %>
+    <div class="bgLogin">
+       <div class="container">
+            <h1 id="loginMessage">Login</h1>
+            <br>
+            <form action="/login" method="POST">
+                <div>
+                    <label>Username:</label>
+                    <input type="text" name="username" class="form-control">
+                </div>
+                <br>
+                <div>
+                    <label>Password:</label>
+                    <input type="password" name="password" class="form-control"> 
+                </div>
+                <br>
+                <div>
+                    <input type="submit" value="Log In" class="btn btn-primary" /> </div>
+                <br> </form>
+            <p>If you're not signed up, please <a href="/register">register</a>.</p>
+        </div> 
+    </div>
+<% include ./partials/footer %>

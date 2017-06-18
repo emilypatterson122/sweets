@@ -1,0 +1,125 @@
+body{
+    font-family: 'Oswald', sans-serif;
+    font-size: 18px;
+}
+.bg{
+    background: url("../sprinkles.jpg") no-repeat center center fixed; 
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+      background-size: cover;
+    height: 100vh; 
+    width: 100%;
+}
+.bgRegister{
+    background-color: #C2BEF6;
+    height: 100vh; 
+}
+.bgLogin{
+    background-color: #B6FFFC;
+    height: 100vh; 
+}
+#loginMessage,
+#registerMessage {
+    margin-top: 2.5em;
+}
+.containerHome {
+    /*margin-top:1em;*/
+    padding: 0;
+    text-align: center;
+}
+
+.containerHome p{
+    color: white;
+    font-size: 100px;
+    font-weight: bold;
+    letter-spacing: 5px;
+    padding-top: 33%;
+    text-shadow: 2px 2px 2px #000;
+}
+.jumbotronIndex{
+    background: url("../sprinkles.jpg") no-repeat center center; 
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+      background-size: cover;
+    text-align: center;
+    margin-top: 2em;
+}
+.jumbotronIndex h1, h2{
+    font-weight: bold;
+    color: white;
+    text-shadow: 1px 1px 1px black;
+}
+.listTabs {
+    margin-top: 4em;
+    padding: 0;
+}
+.singleDessert {
+    /*thumbnail*/
+    overflow: none;
+    margin-top: 5em;
+    padding: 0;
+}
+#createNewDessertLabel, 
+#editDessertLabel, 
+#createNewCommentLabel,
+#editCommentLabel{
+    margin-top:3em;
+    color: black;
+    text-shadow: none;
+}
+
+#dessertDescription {
+    padding-left: 9px;
+}
+.commentWellOne {
+    margin-bottom: 0;
+}
+.hr {
+    background-color: lightgray;
+    height: 1px;
+}
+.dessertsFlexBox {
+    display: moz-flex;
+    display: ms-flex;
+    display: webkit-flex;
+    display: flex;
+    ms-flex-wrap: wrap;
+    webkit-flex-flow: row wrap;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+@media (max-width: 600px) {
+    .dessertsFlexItem {
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+}
+.dessertsFlexItem {
+    max-width: 20em;
+}
+.dessertsThumbnailImg {
+    border: none;
+    padding: 0;
+    min-height:10em;
+}
+.dessertsInfoBtn {
+    text-align: center;
+}
+#back{
+    font-weight: bold;
+    color:white;
+    text-shadow: 1px 1px 1px black;
+}
+.footer{
+    /*margin-top:10em;*/
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 3em;
+    background-color: #f5f5f5;
+}
+footer .breadcrumb {
+    margin:0;
+}

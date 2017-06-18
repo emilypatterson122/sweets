@@ -1,0 +1,17 @@
+<% include ../partials/header %>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-8 col-xs-offset-2 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
+                <div>
+                    <h2 id="editCommentLabel">Edit Comment</h2>
+                    <hr>
+                    <form method="POST" action="/desserts/<%= requestAll.id %>/comments/<%= requestAll.commentid %>?_method=PUT" name="myForm">
+                        <input class="form-control" type="text" name="editCommentText" value="<%= comment.comment %>">
+                        <br/>
+                        <button type="submit" class="btn btn-primary form-control">Edit!</button>
+                    </form>
+                    <br /> <a href="/desserts %>"><span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> Back</a></div>
+            </div>
+        </div>
+    </div>
+<% include ../partials/footer %>

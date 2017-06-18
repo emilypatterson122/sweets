@@ -1,11 +1,13 @@
-var mongoose = require('mongoose'); //import Mongoose methods
-
-// Schema- defines the structure of any documents that will be stored in MongoDB collection
+var mongoose = require('mongoose'); 
 var commentSchema = new mongoose.Schema({
-	author: String,
-	comment: String
-}); 
-
+    comment: String, 
+    author: {
+    	username: String,
+ 		id: {
+ 			type: mongoose.Schema.Types.ObjectId,
+ 			ref: 'User'
+ 		} 
+    } 
+});
 Comment = mongoose.model('Comment', commentSchema);
-
 module.exports = Comment;

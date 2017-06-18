@@ -1,0 +1,21 @@
+<% include ./partials/header %>
+    <div class="bgRegister">
+        <div class="container">
+            <h1 id="registerMessage">Register</h1>
+            <br>
+            <form action="/register" method="POST">
+                <div>
+                    <label>Create a username</label>
+                    <input type="text" name="username" placeholder=" " class="form-control userRegister" /> 
+                </div>
+                <br>
+                <div>
+                    <label>Create a password</label>
+                    <input type="password" name="password" placeholder=" " class="form-control" /> </div>
+                <br>
+                <div>
+                    <input type="submit" value="Register" class="btn btn-primary" /> </div>
+                <br> </form>
+        </div>
+    </div>
+<% include ./partials/footer %>
